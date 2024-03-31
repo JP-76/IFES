@@ -130,6 +130,23 @@ public class BinaryTreeImpl<T> implements BinaryTree<T> {
     }
 
     @Override
+    public int quantidadeNos() {
+        int buffer = 0;
+        Node<T> currentNode = root;
+        while(currentNode != null){
+            buffer++;
+            if(currentNode.getFilhoDireita() != null){
+                currentNode = currentNode.getFilhoDireita();
+            }else if(currentNode.getFilhoEsquerda() != null){
+                currentNode = currentNode.getFilhoEsquerda();
+            }else{
+                currentNode = null;
+            }
+        }
+        return buffer;
+    }
+
+    @Override
     public String caminharEmNivel() {
 
         Node<T> currentNode = root;
