@@ -24,22 +24,90 @@ public class BinaryTreeImpl<T> implements BinaryTree<T> {
 
     @Override
     public void adicionar(T newValue) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        Node<T> newNode = new Node<>(newValue);
+        if (root == null) {
+            root = newNode;
+        } else {
+            Node<T> currentNode = root;
+            Node<T> previousNode;
+            while (true) {
+                previousNode = currentNode;
+                if (comparator.compare(newValue, currentNode.getValor()) < 0) {
+                    currentNode = currentNode.getFilhoEsquerda();
+                    if (currentNode == null) {
+                        previousNode.setFilhoEsquerda(newNode);
+                        return;
+                    }
+                } else {
+                    currentNode = currentNode.getFilhoDireita();
+                    if (currentNode == null) {
+                        previousNode.setFilhoDireita(newNode);
+                        return;
+                    }
+                }
+            }
+        }
     }
 
     @Override
     public T pesquisar(T valor) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        Node<T> currentNode = root;
+        while (currentNode != null) {
+            if (this.comparator.compare(valor, currentNode.getValor()) == 0) {
+                return currentNode.getValor();
+            } else if (this.comparator.compare(valor, currentNode.getValor()) < 0) {
+                currentNode = currentNode.getFilhoEsquerda();
+            } else {
+                currentNode = currentNode.getFilhoDireita();
+            }
+        }
+        return null;
     }
 
+    @SuppressWarnings("unchecked") // Anotação para suprimir avisos de compilação
     @Override
     public T pesquisar(T valor, Comparator customComparator) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        Node<T> currentNode = root;
+        while (currentNode != null) {
+            if (customComparator.compare(valor, currentNode.getValor()) == 0) {
+                return currentNode.getValor();
+            } else if (customComparator.compare(valor, currentNode.getValor()) < 0) {
+                currentNode = currentNode.getFilhoEsquerda();
+            } else {
+                currentNode = currentNode.getFilhoDireita();
+            }
+        }
+        return null;
     }
 
     @Override
     public T remover(T valor) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        Node<T> currentNode = root;
+        while(currentNode != null){
+            if(this.comparator.compare(valor, currentNode.getValor()) == 0){
+                T removedValue = currentNode.getValor();
+                if(currentNode.getFilhoDireita() == null && currentNode.getFilhoEsquerda() == null){
+                    currentNode = null; // Nó não possui filhos
+                }else if(currentNode.getFilhoDireita() == null){
+                    currentNode = currentNode.getFilhoEsquerda(); // Nó possui apenas filho à esquerda
+                }else if(currentNode.getFilhoEsquerda() == null){
+                    currentNode = currentNode.getFilhoDireita(); // Nó possui apenas filho à direita
+                }else{
+                    Node<T> successor = currentNode.getFilhoDireita();
+                    while(successor.getFilhoEsquerda() != null){
+                        successor = successor.getFilhoEsquerda();
+                    }
+                    currentNode.setValor(successor.getValor());
+                    successor = null;
+                }
+                return removedValue;
+            }else if(this.comparator.compare(valor, currentNode.getValor()) < 0){
+                currentNode = currentNode.getFilhoEsquerda();
+            }else{
+                currentNode = currentNode.getFilhoDireita();
+            }
+        }
+        return null;
     }
 
     @Override
