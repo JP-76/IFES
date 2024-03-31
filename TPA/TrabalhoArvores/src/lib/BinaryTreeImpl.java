@@ -49,7 +49,28 @@ public class BinaryTreeImpl<T> implements BinaryTree<T> {
 
     @Override
     public String caminharEmNivel() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+
+        Node<T> currentNode = root;
+        String buffer = "";
+
+        if(currentNode != null){
+            ArrayList<Node<T>> queue = new ArrayList<>();
+            queue.add(currentNode);
+            while(queue.size() > 0){
+                currentNode = queue.get(0);
+                buffer += currentNode.getValor().toString();
+                if(currentNode.getFilhoEsquerda() != null){
+                    queue.add(currentNode.getFilhoEsquerda());
+                }
+                if(currentNode.getFilhoDireita() != null){
+                    queue.add(currentNode.getFilhoDireita());
+                }
+                queue.remove(0);
+            }
+        }
+
+        return buffer;
+
     }
 
     @Override
