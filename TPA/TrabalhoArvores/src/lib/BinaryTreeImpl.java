@@ -112,7 +112,21 @@ public class BinaryTreeImpl<T> implements BinaryTree<T> {
 
     @Override
     public int altura() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        
+        Node<T> currentNode = root;
+        int height = 0;
+
+        while(currentNode != null){
+            height++;
+            if(currentNode.getFilhoDireita() != null){
+                currentNode = currentNode.getFilhoDireita();
+            }else if(currentNode.getFilhoEsquerda() != null){
+                currentNode = currentNode.getFilhoEsquerda();
+            }else{
+                currentNode = null;
+            }
+        }
+        return height;
     }
 
     @Override
